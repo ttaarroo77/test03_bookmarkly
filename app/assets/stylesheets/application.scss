@@ -2,6 +2,11 @@
 @import "bootstrap";
 
 // Custom styles
-.container {
-  margin-top: 2rem;
+body {
+  background-color: #f8f9fa;
+}
+
+.card {
+  border-radius: 0.5rem;
+  border: none;
 }

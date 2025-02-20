@@ -1,0 +1,14 @@
+<% if resource.errors.any? %>
+  <div class="alert alert-danger alert-dismissible fade show mb-4" role="alert">
+    <% if resource.errors.count == 1 %>
+      <%= resource.errors.full_messages.first %>
+    <% else %>
+      <ul class="mb-0">
+        <% resource.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    <% end %>
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+<% end %>

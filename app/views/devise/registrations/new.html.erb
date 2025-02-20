@@ -1,0 +1,36 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+  <div class="card shadow-sm" style="width: 24rem;">
+    <div class="card-body p-4">
+      <h1 class="text-center h3 mb-4">Bookmarkly</h1>
+      <h2 class="text-center h4 mb-4">新規登録</h2>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <div class="mb-3">
+          <%= f.label :email, "メールアドレス", class: "form-label" %>
+          <%= f.email_field :email, class: "form-control", placeholder: "your@email.com" %>
+        </div>
+
+        <div class="mb-3">
+          <%= f.label :password, "パスワード", class: "form-label" %>
+          <% if @minimum_password_length %>
+            <span class="form-text">（<%= @minimum_password_length %> 文字以上）</span>
+          <% end %>
+          <%= f.password_field :password, class: "form-control" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, "パスワード（確認）", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-control" %>
+        </div>
+
+        <%= f.submit "アカウント作成", class: "btn btn-dark w-100 mb-3" %>
+
+        <div class="text-center small">
+          <%= link_to "ログインはこちら", new_session_path(resource_name), class: "text-decoration-none" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
