@@ -4,7 +4,12 @@ class BookmarksController < ApplicationController
   before_action :ensure_correct_user, only: [:edit, :update, :destroy]
 
   def index
-    @bookmarks = current_user.bookmarks.order(created_at: :desc)
+    @bookmarks = current_user.bookmarks
+    @bookmarks = @bookmarks.search(params[:query]) if params[:query].present?
+    @bookmarks = @bookmarks.tagged_with(params[:tag]) if params[:tag].present?
+    @bookmarks = @bookmarks.order(created_at: :desc)
+    
+    @bookmark = current_user.bookmarks.build # 新規作成フォーム用
   end
 
   def show

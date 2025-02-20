@@ -1,0 +1,24 @@
+<%= form_with(url: bookmarks_path, method: :get, local: true, class: "search-form") do |f| %>
+  <div class="mb-3">
+    <%= f.label :query, "キーワード", class: "form-label" %>
+    <%= f.text_field :query, 
+        value: params[:query],
+        class: "form-control form-control-sm",
+        placeholder: "タイトルや説明で検索" %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :tag, "タグで絞り込み", class: "form-label" %>
+    <%= f.text_field :tag,
+        value: params[:tag],
+        class: "form-control form-control-sm",
+        placeholder: "タグを入力" %>
+  </div>
+
+  <div class="text-end">
+    <% if params[:query].present? || params[:tag].present? %>
+      <%= link_to "クリア", bookmarks_path, class: "btn btn-outline-secondary btn-sm me-2" %>
+    <% end %>
+    <%= f.submit "検索", class: "btn btn-primary btn-sm" %>
+  </div>
+<% end %> 
