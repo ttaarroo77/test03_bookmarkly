@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_20_053821) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_20_064117) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -22,6 +22,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_20_053821) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bookmarks_on_user_id"
+  end
+
+  create_table "bookmarks_tags", force: :cascade do |t|
+    t.bigint "bookmark_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bookmark_id"], name: "index_bookmarks_tags_on_bookmark_id"
+    t.index ["tag_id"], name: "index_bookmarks_tags_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "users", force: :cascade do |t|
@@ -37,4 +52,6 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_20_053821) do
   end
 
   add_foreign_key "bookmarks", "users"
+  add_foreign_key "bookmarks_tags", "bookmarks"
+  add_foreign_key "bookmarks_tags", "tags"
 end
