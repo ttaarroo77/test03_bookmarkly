@@ -1,38 +1,62 @@
 require "test_helper"
 
 class BookmarksControllerTest < ActionDispatch::IntegrationTest
-  test "should get index" do
-    get bookmarks_index_url
-    assert_response :success
+  include Devise::Test::IntegrationHelpers
+
+  setup do
+    @user = users(:test_user)
+    sign_in @user
+    @bookmark = bookmarks(:one)
   end
 
-  test "should get show" do
-    get bookmarks_show_url
+  test "should get index" do
+    get bookmarks_url
     assert_response :success
   end
 
   test "should get new" do
-    get bookmarks_new_url
+    get new_bookmark_url
     assert_response :success
   end
 
-  test "should get create" do
-    get bookmarks_create_url
+  test "should create bookmark" do
+    assert_difference("Bookmark.count") do
+      post bookmarks_url, params: { 
+        bookmark: { 
+          title: "Test Bookmark", 
+          url: "https://example.com", 
+          description: "Test description" 
+        } 
+      }
+    end
+
+    assert_redirected_to bookmarks_url
+  end
+
+  test "should show bookmark" do
+    get bookmark_url(@bookmark)
     assert_response :success
   end
 
   test "should get edit" do
-    get bookmarks_edit_url
+    get edit_bookmark_url(@bookmark)
     assert_response :success
   end
 
-  test "should get update" do
-    get bookmarks_update_url
-    assert_response :success
+  test "should update bookmark" do
+    patch bookmark_url(@bookmark), params: { 
+      bookmark: { 
+        title: "Updated Title" 
+      } 
+    }
+    assert_redirected_to bookmarks_url
   end
 
-  test "should get destroy" do
-    get bookmarks_destroy_url
-    assert_response :success
+  test "should destroy bookmark" do
+    assert_difference("Bookmark.count", -1) do
+      delete bookmark_url(@bookmark)
+    end
+
+    assert_redirected_to bookmarks_url
   end
 end
