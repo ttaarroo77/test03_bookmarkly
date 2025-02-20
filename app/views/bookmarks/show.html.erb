@@ -5,7 +5,7 @@
       
       <p class="card-text">
         <strong>URL:</strong>
-        <%= link_to @bookmark.url, @bookmark.url, target: "_blank", rel: "noopener" %>
+        <%= link_to @bookmark.url, @bookmark.url, target: "_blank", rel: "noopener noreferrer" %>
       </p>
 
       <% if @bookmark.description.present? %>

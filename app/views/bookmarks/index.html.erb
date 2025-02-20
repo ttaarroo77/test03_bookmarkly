@@ -7,13 +7,29 @@
           <h2 class="card-title h5 mb-0">ブックマーク一覧</h2>
         </div>
         <div class="card-body">
-          <%= render @bookmarks %>
+          <% if @bookmarks.any? %>
+            <%= render @bookmarks %>
+          <% else %>
+            <p class="text-muted text-center my-4">
+              ブックマークはまだありません。新しいブックマークを追加してください。
+            </p>
+          <% end %>
         </div>
       </div>
     </div>
 
     <!-- 右側：操作パネル -->
     <div class="col-md-4">
+      <!-- 検索フォーム -->
+      <div class="card mb-4">
+        <div class="card-header">
+          <h3 class="card-title h5 mb-0">ブックマーク検索</h3>
+        </div>
+        <div class="card-body">
+          <%= render 'search_form' %>
+        </div>
+      </div>
+
       <!-- 新規ブックマーク追加フォーム -->
       <div class="card mb-4">
         <div class="card-header">
@@ -21,16 +37,6 @@
         </div>
         <div class="card-body">
           <%= render 'form', bookmark: @bookmark %>
-        </div>
-      </div>
-
-      <!-- 検索フォーム -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title h5 mb-0">ブックマーク検索</h3>
-        </div>
-        <div class="card-body">
-          <%= render 'search_form' %>
         </div>
       </div>
     </div>
