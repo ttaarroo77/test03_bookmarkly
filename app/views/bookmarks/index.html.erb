@@ -1,0 +1,40 @@
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>ブックマーク一覧</h1>
+    <%= link_to "新規ブックマーク", new_bookmark_path, class: "btn btn-primary" %>
+  </div>
+
+  <% if @bookmarks.any? %>
+    <div class="row g-4">
+      <% @bookmarks.each do |bookmark| %>
+        <div class="col-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title"><%= bookmark.title %></h5>
+                  <p class="card-text text-muted">
+                    <%= link_to bookmark.url, bookmark.url, target: "_blank", rel: "noopener" %>
+                  </p>
+                  <% if bookmark.description.present? %>
+                    <p class="card-text"><%= bookmark.description %></p>
+                  <% end %>
+                </div>
+                <div class="btn-group">
+                  <%= link_to "編集", edit_bookmark_path(bookmark), class: "btn btn-sm btn-outline-secondary" %>
+                  <%= button_to "削除", bookmark_path(bookmark), method: :delete, 
+                      class: "btn btn-sm btn-outline-danger", 
+                      form: { data: { turbo_confirm: "本当に削除しますか？" } } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      ブックマークがまだありません。新規ブックマークを追加してください。
+    </div>
+  <% end %>
+</div>

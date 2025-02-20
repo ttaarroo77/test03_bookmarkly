@@ -1,0 +1,41 @@
+<div class="container">
+  <div class="text-center mb-5">
+    <h1 class="display-4 mb-3">Welcome to Bookmarkly</h1>
+    <p class="lead text-muted">
+      あなたのウェブを整理する、シンプルでスマートなブックマーク管理ツール
+    </p>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h2 class="card-title h4 mb-3">ブックマークを管理</h2>
+          <p class="card-text text-muted mb-4">
+            ウェブページを簡単に保存、整理、検索できます。
+            タグ付けで効率的な管理を実現します。
+          </p>
+          <% unless user_signed_in? %>
+            <%= link_to "サインアップ", new_user_registration_path, class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card h-100">
+        <div class="card-body">
+          <h2 class="card-title h4 mb-3">すでにアカウントをお持ちの方</h2>
+          <p class="card-text text-muted mb-4">
+            ログインして、ブックマークの管理を始めましょう。
+          </p>
+          <% unless user_signed_in? %>
+            <%= link_to "ログイン", new_user_session_path, class: "btn btn-success" %>
+          <% else %>
+            <%= link_to "ブックマーク一覧へ", bookmarks_path, class: "btn btn-primary" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
