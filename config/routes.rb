@@ -9,4 +9,7 @@ Rails.application.routes.draw do
 
   # ヘルスチェック用のエンドポイント
   get "up" => "rails/health#show", as: :rails_health_check
+
+  # マイページ関連のルート
+  resource :profile, only: [:show, :edit, :update], controller: 'users'
 end
