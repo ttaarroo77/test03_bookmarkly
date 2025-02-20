@@ -1,13 +1,10 @@
 class ApplicationController < ActionController::Base
+  protect_from_forgery unless: -> { request.format.json? }
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected
 
   def configure_permitted_parameters
-    # サインアップ時のパラメータ設定
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:username])
-
-    # アカウント編集時のパラメータ設定
-    devise_parameter_sanitizer.permit(:account_update, keys: [:username])
+    devise_parameter_sanitizer.permit(:sign_up, keys: [:email])
   end
 end

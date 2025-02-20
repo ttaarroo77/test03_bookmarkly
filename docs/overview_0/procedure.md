@@ -48,31 +48,41 @@
 - [ ] `config/routes.rb` にユーザー関連のルート（例：`resources :users` など）を追加する
 
 ### 2.4. ブックマーク管理機能の実装
-- [ ] `rails generate model Bookmark title:string url:string description:text user:references` を実行する
-- [ ] `rails db:migrate` を実行する
-- [ ] `Bookmark` モデルに、`validates :title, :url, :description, presence: true` などのバリデーションを追加する
-- [ ] `rails generate controller Bookmarks` を実行する
-- [ ] `BookmarksController` に CRUD (index, show, new, create, edit, update, destroy) アクションを実装する
-- [ ] `views/bookmarks/` ディレクトリに、`index.html.erb`, `show.html.erb`, `new.html.erb`, `edit.html.erb` を作成する
-- [ ] `config/routes.rb` に `resources :bookmarks` を追加する
+- [x] `rails generate model Bookmark title:string url:string description:text user:references` を実行する
+- [x] `rails db:migrate` を実行する
+- [x] `Bookmark` モデルに、`validates :title, :url, :description, presence: true` などのバリデーションを追加する
+- [x] `rails generate controller Bookmarks` を実行する
+- [x] `BookmarksController` に CRUD (index, show, new, create, edit, update, destroy) アクションを実装する
+- [x] `views/bookmarks/` ディレクトリに、`index.html.erb`, `show.html.erb`, `new.html.erb`, `edit.html.erb` を作成する
+- [x] `config/routes.rb` に `resources :bookmarks` を追加する
+- [ ] curlコマンドでAPIの動作確認を実施する
+  ```bash
+  # 認証
+  curl -X POST http://localhost:3000/users/sign_in \
+    -H "Content-Type: application/json" \
+    -d '{"user": {"email": "test@example.com", "password": "password123"}}'
+  
+  # CRUD操作の確認
+  # 結果は docs/overview_0/api_test_commands.md に記録
+
+  ```
 
 ### 2.5. タグ機能の実装
-- [ ] `rails generate model Tag name:string` を実行する
-- [ ] `rails db:migrate` を実行する
-- [ ] `rails generate migration create_bookmarks_tags bookmark:references tag:references` を実行する
-- [ ] `Bookmark` と `Tag` モデルに `has_and_belongs_to_many` の関連付けを設定する
-- [ ] `views/bookmarks/new.html.erb` にタグ入力欄を追加し、タグ保存ロジックを `BookmarksController` に実装する
+- [x] `rails generate model Tag name:string` を実行する
+- [x] `rails db:migrate` を実行する
+- [x] `rails generate migration create_bookmarks_tags bookmark:references tag:references` を実行する
+- [x] `Bookmark` と `Tag` モデルに `has_and_belongs_to_many` の関連付けを設定する
+- [x] `views/bookmarks/new.html.erb` にタグ入力欄を追加し、タグ保存ロジックを `BookmarksController` に実装する
 
 ### 2.6. 検索機能の実装
-- [ ] `views/bookmarks/index.html.erb` に、`form_with` を使った検索フォームを追加する
-- [ ] `BookmarksController` に、`params[:search]` を用いた検索ロジックを追加する
-- [ ] 検索結果の表示エリアおよび「結果がない場合」のメッセージを実装する
+- [x] `views/bookmarks/index.html.erb` に、`form_with` を使った検索フォームを追加する
+- [x] `BookmarksController` に、`params[:search]` を用いた検索ロジックを追加する
+- [x] 検索結果の表示エリアおよび「結果がない場合」のメッセージを実装する
 
 ### 2.7. マイページ機能の実装
-- [ ] `rails generate controller Users show edit update` を実行する
-- [ ] `UsersController` に `show`, `edit`, `update` アクションを実装する
-- [ ] `views/users/show.html.erb` を作成し、ユーザーの詳細情報を表示する
-- [ ] `views/users/edit.html.erb` でプロフィール編集フォームを実装する
+- [ ] `users_controller.rb` を作成する
+- [ ] `views/users/show.html.erb`（マイページ）を作成する
+- [ ] `config/routes.rb` にマイページのルートを追加する
 
 ---
 
@@ -87,10 +97,12 @@
 - [ ] fe_v0 のデザイン（色、フォント、レイアウト）を踏襲し、必要に応じて Bootstrap やカスタム CSS を適用する
 
 ### 3.3. 各ページのビュー実装
-- [ ] `app/views/bookmarks/index.html.erb` （一覧画面）を作成する
-- [ ] `app/views/bookmarks/show.html.erb` （詳細画面）を作成する
-- [ ] `app/views/bookmarks/new.html.erb` （新規作成フォーム）を作成する
-- [ ] `app/views/bookmarks/edit.html.erb` （編集フォーム）を作成する
+- [x] `app/views/bookmarks/index.html.erb` （一覧画面）を作成する
+- [x] `app/views/bookmarks/show.html.erb` （詳細画面）を作成する
+- [x] `app/views/bookmarks/new.html.erb` （新規作成フォーム）を作成する
+- [x] `app/views/bookmarks/edit.html.erb` （編集フォーム）を作成する
+- [ ] 全体の微調整をする。
+
 
 ### 3.4. スタイルと動的機能の実装
 - [ ] `app/assets/stylesheets` にカスタム CSS ファイルを作成、fe_v0 のスタイルや Bootstrap のクラスを活用してデザインを適用する
