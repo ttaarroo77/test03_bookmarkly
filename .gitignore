@@ -26,38 +26,43 @@
 !/tmp/storage/.keep
 
 /public/assets
+/public/packs
+*.log
 
 # Environment and security
 /.env*
-+/config/master.key
-+/config/credentials/*.key
+/config/master.key
+/config/credentials/*.key
 
 # Node.js
-+/node_modules
-+/yarn-error.log
-+yarn-debug.log*
-+.yarn-integrity
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
 
 # Editor/IDE
 *.swp
 *~
-+.idea/
-+.vscode/
+.idea/
+.vscode/
 
 # OS generated
 .DS_Store
 .DS_Store?
 ._*
-+.Spotlight-V100
-+.Trashes
-+ehthumbs.db
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Next.js (fe_v0)
-+/fe_v0/.next/
-+/fe_v0/node_modules/
-+/fe_v0/.env*
-+/fe_v0/out/
-+/fe_v0/build/
-+/fe_v0/.vercel
-+/fe_v0/*.tsbuildinfo
+/fe_v0/.next/
+/fe_v0/node_modules/
+/fe_v0/.env*
+/fe_v0/out/
+/fe_v0/build/
+/fe_v0/.vercel
+/fe_v0/*.tsbuildinfo
+
+/app/assets/builds/*
+!/app/assets/builds/.keep

@@ -1,0 +1,31 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+  <div class="card shadow-sm" style="width: 24rem;">
+    <div class="card-body p-4">
+      <h1 class="text-center h3 mb-4">Bookmarkly</h1>
+      <h2 class="text-center h4 mb-4">新しいパスワードを設定</h2>
+
+      <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <%= f.hidden_field :reset_password_token %>
+
+        <div class="mb-4">
+          <%= f.label :password, "新しいパスワード", class: "form-label" %>
+          <%= f.password_field :password, autofocus: true, class: "form-control" %>
+          <small class="text-muted">※6文字以上</small>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password_confirmation, "パスワード（確認）", class: "form-label" %>
+          <%= f.password_field :password_confirmation, class: "form-control" %>
+        </div>
+
+        <%= f.submit "パスワードを変更", class: "btn btn-dark w-100" %>
+
+        <div class="text-center mt-3">
+          <%= link_to "ログインはこちら", new_session_path(resource_name), 
+              class: "text-decoration-none text-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

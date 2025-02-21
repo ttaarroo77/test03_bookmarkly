@@ -1,0 +1,58 @@
+<div class="container py-4">
+  <div class="row">
+    <!-- 左カラム：ブックマーク一覧 -->
+    <div class="col-md-8">
+      <h1 class="h4 mb-4">ブックマーク管理</h1>
+
+      <div id="bookmarks-list" data-controller="search" data-search-target="results">
+        <%= render partial: 'bookmarks', locals: { bookmarks: @bookmarks } %>
+      </div>
+    </div>
+
+    <!-- 右カラム：新規作成フォームと検索 -->
+    <div class="col-md-4">
+      <div class="card mb-4">
+        <div class="card-body">
+          <h5 class="card-title mb-3">新規ブックマーク</h5>
+          <%= form_with(model: @bookmark, local: true) do |f| %>
+            <div class="mb-3">
+              <%= f.label :url, "URL", class: "form-label" %>
+              <%= f.url_field :url, class: "form-control", placeholder: "https://example.com" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :title, "タイトル", class: "form-label" %>
+              <%= f.text_field :title, class: "form-control", placeholder: "ウェブサイトのタイトル" %>
+            </div>
+
+            <div class="mb-3" data-controller="tag-input">
+              <%= f.label :tag_list, "タグ", class: "form-label" %>
+              <%= f.hidden_field :tag_list, data: { tag_input_target: "input" } %>
+              <input type="text" class="form-control mb-2" 
+                     placeholder="タグを入力（カンマまたはEnterで追加）" 
+                     data-action="keydown->tag-input#addTag">
+              <div data-tag-input-target="tagList" class="mt-2"></div>
+            </div>
+
+            <%= f.submit "追加", class: "btn btn-dark hover-dark" %>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title mb-3">タグで検索</h5>
+          <%= form_with(url: bookmarks_path, method: :get, 
+                        data: { controller: "search", 
+                               action: "input->search#search submit->search#submit" }) do |f| %>
+            <div class="mb-3">
+              <%= f.text_field :tag, class: "form-control", 
+                              placeholder: "タグを入力...",
+                              data: { search_target: "input" } %>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

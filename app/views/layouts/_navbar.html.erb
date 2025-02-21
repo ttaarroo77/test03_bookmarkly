@@ -1,0 +1,30 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4" style="position: fixed; width: 100%; top: 0; z-index: 1030;">
+  <div class="container">
+    <%= link_to "Bookmarkly", root_path, class: "navbar-brand" %>
+
+    <% if user_signed_in? %>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          <li class="nav-item">
+            <%= link_to "ブックマーク", bookmarks_path, class: "nav-link" %>
+          </li>
+        </ul>
+        
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <%= button_to "ログアウト", destroy_user_session_path, 
+                method: :delete, 
+                class: "btn btn-link nav-link" %>
+          </li>
+        </ul>
+      </div>
+    <% end %>
+  </div>
+</nav>
+
+<!-- ナビバーの高さ分のスペーサー -->
+<div style="height: 72px;"></div> 

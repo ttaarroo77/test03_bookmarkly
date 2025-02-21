@@ -1,0 +1,35 @@
+<%= form_with(model: bookmark, local: true, class: "bookmark-form") do |f| %>
+  <div class="mb-3">
+    <%= f.label :url, "URL", class: "form-label" %>
+    <%= f.url_field :url, 
+        class: "form-control form-control-sm",
+        placeholder: "https://example.com",
+        required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :title, "タイトル", class: "form-label" %>
+    <%= f.text_field :title, 
+        class: "form-control form-control-sm",
+        required: true %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :description, "説明", class: "form-label" %>
+    <%= f.text_area :description, 
+        class: "form-control form-control-sm",
+        rows: 2 %>
+  </div>
+
+  <div class="mb-3">
+    <%= f.label :tag_list, "タグ", class: "form-label" %>
+    <%= f.text_field :tag_list, 
+        class: "form-control form-control-sm",
+        placeholder: "カンマ区切りでタグを入力" %>
+    <div class="form-text">複数のタグはカンマ（,）で区切ってください</div>
+  </div>
+
+  <div class="text-end">
+    <%= f.submit class: "btn btn-primary btn-sm" %>
+  </div>
+<% end %> 

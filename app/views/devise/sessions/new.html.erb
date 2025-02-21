@@ -1,0 +1,35 @@
+<div class="d-flex align-items-center justify-content-center min-vh-100">
+  <div class="card shadow-sm" style="width: 24rem;">
+    <div class="card-body p-4">
+      <h1 class="text-center h3 mb-4">Bookmarkly</h1>
+      <h2 class="text-center h5 mb-4">ログイン</h2>
+
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+        <div class="mb-3">
+          <%= f.label :email, "メールアドレス", class: "form-label" %>
+          <%= f.email_field :email, 
+              class: "form-control", 
+              placeholder: "your@email.com",
+              autocomplete: "email" %>
+        </div>
+
+        <div class="mb-4">
+          <%= f.label :password, "パスワード", class: "form-label" %>
+          <%= f.password_field :password, 
+              class: "form-control",
+              autocomplete: "current-password" %>
+        </div>
+
+        <%= f.submit "ログイン", class: "btn btn-dark w-100" %>
+
+        <div class="d-flex justify-content-between mt-3">
+          <%= link_to "新規登録", new_registration_path(resource_name), 
+              class: "text-decoration-none text-secondary" %>
+          <%= link_to "パスワードを忘れた場合", new_password_path(resource_name), 
+              class: "text-decoration-none text-secondary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

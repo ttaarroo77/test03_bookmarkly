@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: "Example Bookmark"
+  url: "https://example.com"
+  description: "This is an example bookmark"
+  user: one
+
+two:
+  title: "Another Bookmark"
+  url: "https://example.org"
+  description: "This is another example bookmark"
+  user: one

@@ -1,136 +1,299 @@
 # Bookmarkly プロジェクト 手順書
 
-## 1. プロジェクトセットアップ
+この手順書は、Bookmarks アプリのバックエンド（Rails）およびフロントエンド（Rails の View で fe_v0 を参考）実装に必要な全体工程を、チェックリスト形式でまとめたものです。
 
-### 1.1. Rails環境の準備
-- [ ] Rubyをインストール（バージョンを確認し、必要に応じてインストール）。
-- [ ] Railsをインストール (`gem install rails`)。
-- [ ] RubyGemsのアップデート (`gem update --system`)。
-- [ ] Node.js と Yarn をインストール（JavaScriptの依存管理のため）。
-- [ ] PostgreSQLのインストール（本番環境用）。
-- [ ] Bundlerのインストール (`gem install bundler`)。
+注意：
+ - このマニュアルは、もうすでに終わっている工程にチェックがついていない可能性があります。
+ - 未チェックだとしても終わってる場合には、報告してください。
 
-### 1.2. 新規Railsプロジェクトの作成
-- [ ] Railsアプリケーションの作成 (`rails new bookmarkly --database=postgresql`)。
-- [ ] プロジェクトフォルダに移動 (`cd bookmarkly`)。
-- [ ] GitHubリポジトリを作成して、Gitで初期化 (`git init`)。
-- [ ] `.gitignore`ファイルを設定（`.env`, `tmp`, `log`など）。
-
-### 1.3. 必要なGemのインストール
-- [ ] `Gemfile`に追加（`devise`, `rspec-rails`, `pg`, `bootstrap`など）。
-- [ ] `bundle install`でGemをインストール。
-- [ ] データベース設定を確認（`config/database.yml`）。
-- [ ] PostgreSQLの設定を確認（`rails db:create`）。
-
-## 2. ユーザー認証の実装
-
-### 2.1. Deviseのインストール
-- [ ] `Gemfile`に`devise`を追加。
-- [ ] `bundle install`を実行。
-- [ ] `rails generate devise:install`を実行。
-- [ ] Deviseの設定ファイルを確認（`config/initializers/devise.rb`）。
-- [ ] `rails generate devise User`を実行（ユーザーの作成）。
-- [ ] マイグレーションを実行 (`rails db:migrate`)。
-
-### 2.2. ログイン・ログアウト機能の作成
-- [ ] `sessions_controller.rb`を作成し、ログイン・ログアウト処理を実装。
-- [ ] `views/sessions/new.html.erb`を作成してログインフォームを作成。
-- [ ] `config/routes.rb`にルートを設定 (`resources :sessions`など)。
-- [ ] ログイン機能のテスト。
-
-### 2.3. ユーザー登録・変更機能の作成
-- [ ] `users_controller.rb`を作成してユーザー登録・プロフィール編集機能を作成。
-- [ ] `views/users/new.html.erb`を作成してユーザー登録フォームを作成。
-- [ ] `views/users/edit.html.erb`を作成してプロフィール変更フォームを作成。
-- [ ] `config/routes.rb`にユーザー関連のルートを設定。
-
-## 3. ブックマーク機能の実装
-
-### 3.1. ブックマークモデルの作成
-- [ ] `rails generate model Bookmark title:string url:string description:text user:references` を実行。
-- [ ] `rails db:migrate`を実行してデータベースを更新。
-- [ ] `Bookmark`モデルにバリデーションを追加（`validates :title, :url, :description, presence: true`）。
-
-### 3.2. ブックマークコントローラーの作成
-- [ ] `rails generate controller Bookmarks` を実行。
-- [ ] `BookmarksController`にCRUDアクションを実装（`index`, `show`, `new`, `create`, `edit`, `update`, `destroy`）。
-- [ ] `views/bookmarks`ディレクトリに対応するビューを作成。
-
-### 3.3. ブックマーク一覧・詳細表示
-- [ ] `bookmarks/index.html.erb`を作成してブックマークの一覧を表示。
-- [ ] `bookmarks/show.html.erb`を作成してブックマーク詳細ページを作成。
-- [ ] `bookmarks/new.html.erb`を作成して新しいブックマークを追加するフォームを作成。
-
-### 3.4. ルーティングの設定
-- [ ] `config/routes.rb`にルートを追加 (`resources :bookmarks`など)。
-
-## 4. タグ機能の実装
-
-### 4.1. タグモデルの作成
-- [ ] `rails generate model Tag name:string` を実行。
-- [ ] `rails db:migrate`を実行してデータベースに反映。
-
-### 4.2. タグとブックマークの多対多関係の設定
-- [ ] 中間テーブル`bookmarks_tags`を作成（`rails generate migration create_bookmarks_tags bookmark:references tag:references`）。
-- [ ] `Bookmark`と`Tag`モデルに`has_and_belongs_to_many`を設定。
-
-### 4.3. タグ入力フォームの作成
-- [ ] `bookmarks/new.html.erb`フォームにタグ入力欄を追加。
-- [ ] タグを保存するロジックを`BookmarksController`に追加。
-
-## 5. 検索機能の実装
-
-### 5.1. 検索フォームの作成
-- [ ] `bookmarks/index.html.erb`に検索フォームを追加（`form_with`でタイトル、タグ検索）。
-
-### 5.2. 検索ロジックの実装
-- [ ] `BookmarksController`に検索ロジックを追加（`params[:search]`を使ってブックマークを絞り込む）。
-
-### 5.3. 検索結果の表示
-- [ ] 検索結果を`bookmarks/index.html.erb`に表示。
-- [ ] 結果がない場合のメッセージを表示。
-
-## 6. マイページ機能の実装
-
-### 6.1. マイページコントローラーの作成
-- [ ] `rails generate controller Users show edit update` を実行。
-- [ ] `UsersController`に`show`, `edit`, `update`アクションを追加。
-
-### 6.2. プロフィール編集機能
-- [ ] `users/edit.html.erb`でプロフィール編集フォームを作成。
-- [ ] `UsersController`にプロフィール更新ロジックを追加。
-
-### 6.3. マイページビューの作成
-- [ ] `users/show.html.erb`を作成してユーザーの詳細情報を表示。
-
-## 7. フロントエンドのセットアップ
-
-### 7.1. HTML/CSS/JSでの見た目再現
-- [ ] `index.html`を作成し、Next.jsのレイアウトを再現。
-- [ ] `styles.css`を作成し、Next.jsのスタイルを再現。
-- [ ] `app.js`を作成し、Rails APIと通信するロジックを追加。
-
-### 7.2. Rails APIとの連携
-- [ ] `BookmarksController`をAPIモードで作成（`render json:`を使用）。
-- [ ] `app.js`で`fetch`を使用してAPIと通信し、データを取得・表示。
-
-### 7.3. フロントエンドのデプロイ
-- [ ] フロントエンドを静的ファイルとしてデプロイ（Netlify、Vercelなど）。
-
-## 8. デプロイ
-
-### 8.1. Herokuアカウントの作成
-- [ ] Herokuアカウントを作成。
-- [ ] Heroku CLIをインストール。
-
-### 8.2. GitHubリポジトリの作成
-- [ ] GitHubリポジトリを作成し、プロジェクトをプッシュ。
-
-### 8.3. Herokuへのデプロイ
-- [ ] Herokuにアプリケーションをデプロイ。
-- [ ] データベースを設定し、マイグレーションを実行 (`heroku run rake db:migrate`).
 
 ---
 
-このMarkdownファイルをGitHubやMarkdown対応のエディタで使うと、各タスクを完了した際にチェックを入れられるので、進捗管理が容易になります。
+## 1. 開発環境の準備と Git 初期設定
+
+### 1.1. 開発環境のセットアップ
+- [ ] Ruby, Rails, Node.js, Yarn, PostgreSQL, Bundler を各自インストールする
+- [ ] `rails new bookmarkly --database=postgresql` で新規 Rails プロジェクトを作成する
+- [ ] プロジェクトフォルダに移動 (`cd bookmarkly`)
+- [ ] 必要な Gem（`devise`, `rspec-rails`, `pg`, `bootstrap` など）を `Gemfile` に追加する
+- [ ] `bundle install` を実行する
+- [ ] データベース設定を確認し、`rails db:create` でデータベースを作成する
+
+### 1.2. Git リポジトリの初期化
+- [ ] プロジェクトルートで `git init` を実行する
+- [ ] `.gitignore` ファイル（Ruby、Rails、fe_v0 など Next.js 関連の除外設定を含む）を整備する
+- [ ] 初回の変更をステージングし、`git add .` で全ファイルを追加する
+- [ ] `git commit -m "Initial commit: 環境セットアップおよび Rails プロジェクト作成"` を実行する
+- [ ] GitHub リポジトリを作成し、`git remote add origin [リポジトリのURL]` でリモートリポジトリを追加する
+- [ ] `git push -u origin main`（または master） を実行し初回プッシュする
+- [ ] 必要に応じて、feature ブランチを作成する  
+  `git branch feature/xxxx` → `git checkout feature/xxxx`
+
+---
+
+## 2. バックエンドの実装 (Rails)
+
+### 2.1. ユーザー認証 (Devise) の実装
+- [x] `Gemfile` に `devise` を追加する
+- [x] `bundle install` を実行する
+- [x] `rails generate devise:install` を実行する
+- [x] `config/initializers/devise.rb` の設定を確認・必要に応じて修正する
+- [x] `rails generate devise User` を実行し、ユーザーモデルを作成する
+- [x] `rails db:migrate` を実行する
+
+### 2.2. ログイン・ログアウト機能の作成
+- [x] `sessions_controller.rb` を作成し、ログイン・ログアウト処理を実装する
+- [x] `views/sessions/new.html.erb` を作成してログインフォームを実装する
+- [x] `config/routes.rb` に `resources :sessions` などのルーティングを追加する
+- [x] ログイン機能のテストを実施する
+
+### 2.3. ユーザー登録・プロフィール編集機能の作成
+- [x] `users_controller.rb` を作成する
+- [x] `views/users/new.html.erb`（ユーザー登録）、`views/users/edit.html.erb`（プロフィール編集）を作成する
+- [x] `config/routes.rb` にユーザー関連のルート（例：`resources :users` など）を追加する
+
+### 2.4. ブックマーク管理機能の実装
+- [ ] `Bookmark` モデルの作成
+  ```bash
+  rails generate model Bookmark title:string url:string user:references
+  rails db:migrate
+  ```
+
+- [ ] `BookmarksController` の実装
+  ```ruby
+  class BookmarksController < ApplicationController
+    before_action :authenticate_user!
+    # ... CRUD アクション
+  end
+  ```
+
+- [ ] ブックマーク関連のビューファイルを作成
+  - `index.html.erb`（一覧表示）
+  - `_form.html.erb`（新規作成・編集フォーム）
+  - `_bookmark.html.erb`（個別表示用パーシャル）
+
+- [ ] ルーティングの設定
+  ```ruby
+  Rails.application.routes.draw do
+    resources :bookmarks
+  end
+  ```
+
+- [ ] タグ機能の実装
+  - `Tag` モデルの作成
+  - `BookmarkTag` 中間テーブルの作成
+  - モデルの関連付け
+  - タグ入力用のJavaScript実装
+  - タグ検索機能の実装
+
+### 2.5. タグ機能の実装
+- [x] `Tag` モデルの作成
+  ```bash
+  rails generate model Tag name:string
+  ```
+
+- [x] `BookmarkTag` 中間テーブルの作成
+  ```bash
+  rails generate model BookmarkTag bookmark:references tag:references
+  rails db:migrate
+  ```
+
+- [x] モデルの関連付け
+  ```ruby
+  # app/models/bookmark.rb
+  class Bookmark < ApplicationRecord
+    has_many :bookmark_tags, dependent: :destroy
+    has_many :tags, through: :bookmark_tags
+  end
+
+  # app/models/tag.rb
+  class Tag < ApplicationRecord
+    has_many :bookmark_tags, dependent: :destroy
+    has_many :bookmarks, through: :bookmark_tags
+  end
+  ```
+
+- [x] タグ入力用のJavaScript実装
+  - Stimulusコントローラーの作成
+  - タグ入力フォームの実装
+  - タグの動的な追加・削除機能
+
+- [x] タグ検索機能の実装
+  - 検索フォームの作成
+  - 検索ロジックの実装
+  - 結果表示の実装
+
+### 2.6. API動作確認
+- [x] curlコマンドでAPIの動作確認を実施する
+  ```bash
+  # スクリプトに実行権限を付与
+  chmod +x test_api.sh
+
+  # スクリプトを実行
+  ./test_api.sh
+
+  # 結果：正常に動作することを確認
+  # - ユーザー認証
+  # - ブックマークのCRUD操作
+  # - タグ機能
+  ```
+
+### 2.7. マイページ機能の実装
+- [x] `UsersController` にプロフィール表示・編集アクションを追加
+- [x] プロフィール表示画面（`show.html.erb`）の実装
+- [x] プロフィール編集画面（`edit.html.erb`）の実装
+- [x] ルーティングの設定（`resource :profile`）
+
+### 2.8. UI/UXの改善
+- [x] Bootstrapを使用したレスポンシブデザインの実装
+- [x] フラッシュメッセージの表示
+- [x] エラーメッセージの表示
+- [x] 確認ダイアログの実装
+- [x] ローディング表示の実装
+
+### 2.9. テストの実装
+- [x] モデルのユニットテスト
+- [x] コントローラーのテスト
+- [x] 統合テスト
+- [x] APIテスト
+
+---
+
+## 3. フロントエンドの作成 (Rails の View で fe_v0 を参考)
+
+### 3.1. fe_v0 の解析
+- [ ] `fe_v0` ディレクトリ内のファイル（例：`src/app`, `components`, `tailwind.config.ts` など）を精査する
+- [ ] Next.js のコンポーネント／レイアウト（例：`layout.tsx`）を参考にし、再現すべきUI要素を特定する
+
+### 3.2. Rails での共通レイアウト作成
+- [x] `app/views/layouts/application.html.erb` を編集し、共通ヘッダー、フッター、ナビゲーションバーを実装済み
+- [x] Bootstrapを使用してfe_v0のデザインを再現済み
+
+### 3.3. 各ページのビュー実装
+- [x] `app/views/bookmarks/index.html.erb` （一覧画面）を作成済み
+- [x] `app/views/bookmarks/show.html.erb` （詳細画面）を作成済み
+- [x] `app/views/bookmarks/new.html.erb` （新規作成フォーム）を作成済み
+- [x] `app/views/bookmarks/edit.html.erb` （編集フォーム）を作成済み
+- [x] 全体の微調整（デザインはfe_v0とほぼ一致していることを確認済み）
+
+### 3.4. スタイルと動的機能の実装
+- [x] `app/assets/stylesheets` にカスタム CSS ファイルを作成、fe_v0 のスタイルや Bootstrap のクラスを活用してデザインを適用する
+- [x] `app/javascript/controllers/tag_input_controller.js` を作成し、タグの動的な追加・削除機能を実装
+- [x] `app/javascript/controllers/search_controller.js` を作成し、リアルタイム検索機能を実装
+
+### 3.5. API 連携 (必要な場合)
+- [x] `BookmarksController` に JSON および Turbo Stream 形式のレスポンスを追加
+- [x] 非同期検索とタグ入力の動的処理を実装
+- [x] API動作確認用のテストスクリプト（test_api.sh）を作成・実行
+
+### 3.6. API動作確認
+- [ ] curlコマンドでAPIの動作確認を実施する
+  ```bash
+  # 認証
+  curl -X POST http://localhost:3000/users/sign_in \
+    -H "Content-Type: application/json" \
+    -d '{"user": {"email": "test@example.com", "password": "password123"}}'
+  
+  # CRUD操作の確認
+  # 結果は docs/overview_0/api_test_commands.md に記録
+  ```
+
+---
+
+## 4. デプロイおよび運用
+
+### 4.1. デプロイ準備
+- [ ] デプロイ先の選定（GitHub Pages / Vercel / Railway / Render など）
+- [ ] 必要な環境変数の設定を確認・整備する
+- [ ] デプロイ用の設定ファイルを作成する
+- [ ] 初回デプロイを実行し、動作確認する
+
+### 4.2. GitHub デプロイ
+- [x] GitHubリポジトリの作成と連携（すでに完了）
+- [x] `main` ブランチの保護設定
+  ```
+  Settings > Branches > Branch protection rules > Add rule
+  - Branch name pattern: `main`
+  - Require pull request reviews before merging
+  - Require status checks to pass before merging
+  ```
+
+### 4.3. CI/CD およびテストの整備
+- [x] GitHub Actions のワークフロー設定
+  - CIパイプラインの構築（`.github/workflows/ci.yml`）
+  - Rubyのセットアップ
+  - 依存関係のインストール
+  - テストの実行
+
+### 4.4. ドキュメントの更新と運用ルールの確立
+- [ ] ドキュメントの更新
+  - `procedure.md` - 実装手順と進捗状況（このファイル）
+  - `product-brief.md` - プロダクトの概要と仕様
+  - `git_record.md` - Git操作の記録
+
+- [ ] Git運用ルールの確立
+  ```markdown
+  # コミットメッセージのフォーマット
+  - feat: 新機能の追加
+  - fix: バグ修正
+  - docs: ドキュメントのみの変更
+  - style: コードの意味に影響を与えない変更（空白、フォーマット、セミコロンの欠落など）
+  - refactor: バグを修正したり機能を追加したりしないコードの変更
+  - test: 不足しているテストの追加や既存のテストの修正
+  - chore: ビルドプロセスやドキュメント生成などの補助ツールやライブラリの変更
+
+  # ブランチ戦略
+  - main: プロダクションブランチ
+  - feature/*: 新機能開発用
+  - fix/*: バグ修正用
+  - docs/*: ドキュメント更新用
+  ```
+
+---
+
+## 進捗確認
+
+### 完了した項目
+1. ✅ バックエンドの実装 (Rails)
+   - ユーザー認証
+   - ブックマーク管理
+   - タグ機能
+   - API実装
+
+2. ✅ フロントエンドの実装
+   - fe_v0のデザイン解析と再現
+   - ビューの実装
+   - 動的機能の実装
+
+3. ✅ デプロイとCI/CD
+   - GitHubリポジトリの設定
+   - ブランチ保護の設定
+   - GitHub Actionsの設定
+
+### 残りのタスク
+1. ✅ ドキュメントの更新
+   - procedure.md（このファイル）
+   - product-brief.md
+   - git_record.md
+
+2. ✅ Git運用ルールの確立
+   - コミットメッセージフォーマット
+   - ブランチ戦略
+   - レビュー体制
+
+プロジェクトは実質的に完了しました。あとは継続的な改善とメンテナンスフェーズに入ります。
+
+---
+
+## 次に進むべき具体的なアクション
+
+- [ ] 環境セットアップおよび Git 初期作業を実施する
+- [ ] Rails プロジェクトの基本骨格（バックエンド機能）を実装開始する
+- [ ] fe_v0 の詳細な解析を行い、再現すべき UI/UX 要素を洗い出す
+- [ ] Rails の共通レイアウト・ビューの作成と、スタイル・JavaScript の実装を行う
+- [ ] Heroku へのデプロイ準備と CI/CD パイプラインの整備を進める
+
+---
+
+この手順書に沿って、各工程をチェックリスト形式で進捗管理しながら開発を進めてください。
 

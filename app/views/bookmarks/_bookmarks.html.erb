@@ -1,0 +1,39 @@
+<% if bookmarks.any? %>
+  <div class="bookmarks">
+    <% bookmarks.each do |bookmark| %>
+      <div class="card mb-3">
+        <div class="card-body">
+          <h5 class="card-title"><%= bookmark.title %></h5>
+          <%= link_to bookmark.url, bookmark.url, 
+              class: "text-secondary text-decoration-none", 
+              target: "_blank",
+              rel: "noopener noreferrer" %>
+          <div class="mt-2">
+            <% bookmark.tags.each do |tag| %>
+              <%= link_to bookmarks_path(tag: tag.name), 
+                  class: "badge bg-secondary text-decoration-none me-1" do %>
+                <%= tag.name %>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="mt-2 d-flex gap-2">
+            <%= link_to edit_bookmark_path(bookmark), 
+                class: "btn btn-sm btn-outline-secondary" do %>
+              <i class="bi bi-pencil"></i> 編集
+            <% end %>
+            <%= button_to bookmark_path(bookmark), 
+                method: :delete,
+                class: "btn btn-sm btn-outline-danger",
+                form: { data: { turbo_confirm: "本当に削除しますか？" } } do %>
+              <i class="bi bi-trash"></i> 削除
+            <% end %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <div class="alert alert-info">
+    ブックマークはまだありません。右のフォームから追加してください。
+  </div>
+<% end %> 
