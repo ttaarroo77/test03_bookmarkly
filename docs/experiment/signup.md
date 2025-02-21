@@ -22,6 +22,8 @@
       <h2 class="text-center h4 mb-4">新規登録</h2>
 
       <form>
+        <!-- ここにメールアドレスの入力フィールドを実装するべき -->
+
         <div class="mb-3">
           <label for="email" class="form-label">メールアドレス</label>
           <input 
@@ -86,6 +88,7 @@ gem 'bootstrap', '~> 5.3'
 
       <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
         <%= render "devise/shared/error_messages", resource: resource %>
+        <!-- ここにメールアドレスの入力フィールドを実装するべきじゃない？ -->
 
         <div class="mb-3">
           <%= f.label :email, "メールアドレス", class: "form-label" %>

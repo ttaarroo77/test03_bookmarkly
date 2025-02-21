@@ -10,9 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_20_064117) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_20_203201) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "bookmark_tags", force: :cascade do |t|
+    t.bigint "bookmark_id", null: false
+    t.bigint "tag_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bookmark_id"], name: "index_bookmark_tags_on_bookmark_id"
+    t.index ["tag_id"], name: "index_bookmark_tags_on_tag_id"
+  end
 
   create_table "bookmarks", force: :cascade do |t|
     t.string "title"
@@ -47,10 +56,13 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_20_064117) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "bookmark_tags", "bookmarks"
+  add_foreign_key "bookmark_tags", "tags"
   add_foreign_key "bookmarks", "users"
   add_foreign_key "bookmarks_tags", "bookmarks"
   add_foreign_key "bookmarks_tags", "tags"

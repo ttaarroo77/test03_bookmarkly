@@ -1,120 +1,147 @@
-# ログイン画面の実装メモ
+# ログイン機能の実装
 
-## 1. 実装目標
-シンプルでモダンなログイン画面をBootstrapで実装する
+## 1. ログインフォームの作成
 
-
-- **ログイン画面**  
-    - **概要**: 登録済みユーザーがメールアドレスとパスワードでログイン  
-    - **参考画像**: `docs/images/login.png`  
-    - **詳細**:
-        - 入力フィールド（メールアドレス、パスワード）
-        - 「ログイン」ボタン
-        - 新規登録やパスワードリセットリンク
-
-
-## 2. 純粋なHTML/CSSでの実装例
-
-### 2.1 基本構造
-```html
-<div class="container d-flex flex-column align-items-center justify-content-center vh-100">
-  <!-- タイトル -->
-  <h1 class="mb-4">Bookmarkly</h1>
-  
-  <!-- ログインフォーム -->
-  <div class="login-container">
-    <h2 class="mb-4">ログイン</h2>
-    <form>
-      <!-- メールアドレス入力 -->
-      <div class="mb-3">
-        <label for="email" class="form-label">メールアドレス</label>
-        <input type="email" class="form-control" id="email" placeholder="you@email.com" />
-      </div>
-      
-      <!-- パスワード入力 -->
-      <div class="mb-3">
-        <label for="password" class="form-label">パスワード</label>
-        <input type="password" class="form-control" id="password" placeholder="********" />
-      </div>
-      
-      <!-- ログインボタン -->
-      <button type="submit" class="btn btn-dark w-100">ログイン</button>
-    </form>
-
-    <!-- リンク -->
-    <div class="d-flex justify-content-between mt-3">
-      <a href="#">新規登録</a>
-      <a href="#">パスワードを忘れた場合</a>
-    </div>
-  </div>
-</div>
+### 1.1 Deviseのビューを生成
+```bash
+rails generate devise:views
 ```
 
-### 2.2 必要なスタイル
-```css
-body {
-  background-color: #f8f9fa;
-}
-.login-container {
-  max-width: 400px;
-  width: 100%;
-}
-```
-
-## 3. Railsでの実装方法
-
-### 3.1 Bootstrapの導入
-```ruby
-# Gemfile
-gem 'bootstrap', '~> 5.3'
-```
-
-### 3.2 ログイン画面のView
+### 1.2 ログインフォームのカスタマイズ
 ```erb
-<%# app/views/devise/sessions/new.html.erb %>
-<div class="container d-flex flex-column align-items-center justify-content-center vh-100">
-  <h1 class="mb-4">Bookmarkly</h1>
+# app/views/devise/sessions/new.html.erb
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-body">
+          <h2 class="card-title text-center mb-4">ログイン</h2>
 
-  <div class="login-container">
-    <h2 class="mb-4">ログイン</h2>
-    
-    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-      <div class="mb-3">
-        <%= f.label :email, "メールアドレス", class: "form-label" %>
-        <%= f.email_field :email, class: "form-control", placeholder: "you@email.com" %>
+          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+            <div class="mb-3">
+              <%= f.label :email, "メールアドレス", class: "form-label" %>
+              <%= f.email_field :email, autofocus: true, class: "form-control" %>
+            </div>
+
+            <div class="mb-3">
+              <%= f.label :password, "パスワード", class: "form-label" %>
+              <%= f.password_field :password, class: "form-control" %>
+            </div>
+
+            <% if devise_mapping.rememberable? %>
+              <div class="mb-3 form-check">
+                <%= f.check_box :remember_me, class: "form-check-input" %>
+                <%= f.label :remember_me, "ログイン状態を保持", class: "form-check-label" %>
+              </div>
+            <% end %>
+
+            <%= f.submit "ログイン", class: "btn btn-primary w-100" %>
+          <% end %>
+
+          <div class="mt-3 text-center">
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
       </div>
-
-      <div class="mb-3">
-        <%= f.label :password, "パスワード", class: "form-label" %>
-        <%= f.password_field :password, class: "form-control" %>
-      </div>
-
-      <%= f.submit "ログイン", class: "btn btn-dark w-100" %>
-    <% end %>
-
-    <div class="d-flex justify-content-between mt-3">
-      <%= link_to "新規登録", new_registration_path(resource_name), class: "text-decoration-none" %>
-      <%= link_to "パスワードを忘れた場合", new_password_path(resource_name), class: "text-decoration-none" %>
     </div>
   </div>
 </div>
 ```
 
-## 4. デザインのポイント
+## 2. ナビゲーションバーの更新
 
-1. **中央寄せ**
-   - `d-flex`, `align-items-center`, `justify-content-center` で完全中央配置
-   - `vh-100` で画面の高さいっぱいに
+```erb
+# app/views/shared/_header.html.erb
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <div class="container">
+    <%= link_to "Bookmarkly", root_path, class: "navbar-brand" %>
+    
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <% if user_signed_in? %>
+          <li class="nav-item">
+            <%= link_to "ブックマーク", bookmarks_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+              <%= current_user.email %>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li>
+                <%= link_to "プロフィール編集", edit_user_registration_path, class: "dropdown-item" %>
+              </li>
+              <li><hr class="dropdown-divider"></li>
+              <li>
+                <%= button_to "ログアウト", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li class="nav-item">
+            <%= link_to "新規登録", new_user_registration_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
+            <%= link_to "ログイン", new_user_session_path, class: "nav-link" %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
+```
 
-2. **フォームの幅**
-   - `max-width: 400px` でフォームが広がりすぎないように制御
+## 3. フラッシュメッセージの表示
 
-3. **余白の調整**
-   - `mb-4`, `mt-3` などのユーティリティクラスで適切な余白を確保
+```erb
+# app/views/shared/_flash.html.erb
+<% flash.each do |name, msg| %>
+  <% if msg.is_a?(String) %>
+    <div class="alert alert-<%= name == 'notice' ? 'success' : 'danger' %> alert-dismissible fade show">
+      <%= msg %>
+      <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+  <% end %>
+<% end %>
+```
 
-4. **ボタンのスタイル**
-   - `btn-dark` でダークテーマ
-   - `w-100` で横幅いっぱい
+## 4. レイアウトファイルの更新
 
-5. **リンクの配置**
-   - `justify-content-between` で両端に配置
+```erb
+# app/views/layouts/application.html.erb
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Bookmarkly</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag "application", media: "all", "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body>
+    <%= render 'shared/header' %>
+    
+    <div class="container mt-4">
+      <%= render 'shared/flash' %>
+      <%= yield %>
+    </div>
+  </body>
+</html>
+```
+
+## 5. ルーティングの確認
+
+```ruby
+# config/routes.rb
+Rails.application.routes.draw do
+  devise_for :users
+  root 'bookmarks#index'
+  
+  resources :bookmarks
+end
+```

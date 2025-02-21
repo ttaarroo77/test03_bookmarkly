@@ -4,7 +4,7 @@ class BookmarksControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
   setup do
-    @user = users(:test_user)
+    @user = users(:one)
     sign_in @user
     @bookmark = bookmarks(:one)
   end
@@ -24,10 +24,13 @@ class BookmarksControllerTest < ActionDispatch::IntegrationTest
       post bookmarks_url, params: { 
         bookmark: { 
           title: "Test Bookmark", 
-          url: "https://example.com", 
+          url: "https://example.com/test", 
           description: "Test description" 
         } 
       }
+      if response.status == 422  # バリデーションエラーの場合
+        puts "Validation errors: #{Bookmark.last&.errors.full_messages}"
+      end
     end
 
     assert_redirected_to bookmarks_url

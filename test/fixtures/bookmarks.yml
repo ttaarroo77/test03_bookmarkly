@@ -4,10 +4,10 @@ one:
   title: "Example Bookmark"
   url: "https://example.com"
   description: "This is an example bookmark"
-  user: test_user
+  user: one
 
 two:
   title: "Another Bookmark"
   url: "https://example.org"
   description: "This is another example bookmark"
-  user: test_user
+  user: one

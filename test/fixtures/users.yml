@@ -11,6 +11,10 @@
 
 # test/fixtures/users.yml
 # テスト用のユーザーデータを定義
-test_user:
+one:
   email: "test@example.com"
+  encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
+
+two:
+  email: "test2@example.com"
   encrypted_password: <%= Devise::Encryptor.digest(User, 'password123') %>
