@@ -79,20 +79,11 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  primary: &primary_production
-    <<: *default
-    database: test03_bookmarkly_production
-    username: test03_bookmarkly
-    password: <%= ENV["TEST03_BOOKMARKLY_DATABASE_PASSWORD"] %>
-  cache:
-    <<: *primary_production
-    database: test03_bookmarkly_production_cache
-    migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: test03_bookmarkly_production_queue
-    migrations_paths: db/queue_migrate
-  cable:
-    <<: *primary_production
-    database: test03_bookmarkly_production_cable
-    migrations_paths: db/cable_migrate
+  <<: *default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  host: cd5gks8n4kb20g.cluster-czrs8kj4isg7.us-east-1.rds.amazonaws.com
+  database: d40t3fvg42cc8t
+  username: uae2a6k0q55oui
+  password: p7dfb4bc096b73dca5a1a229192c0f12ae1e2034cfd1187509f763c28583ad21d
