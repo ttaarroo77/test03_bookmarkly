@@ -1,2 +1,37 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
+
+/* モバイルブラウザでの100vh問題を解決 */
+.min-vh-100 {
+  min-height: 100vh;
+  /* モバイルブラウザ用 */
+  min-height: -webkit-fill-available;
+  /* iOS Safari用 */
+  min-height: -moz-available;
+  /* Firefox用 */
+  min-height: stretch;
+}
+
+html {
+  height: -webkit-fill-available;
+  height: -moz-available;
+  height: stretch;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  min-height: -moz-available;
+  min-height: stretch;
+}
+
+/* ボタンのホバー色をカスタマイズ */
+.btn-dark {
+  background-color: #212529;
+  border-color: #212529;
+
+  &:hover {
+    background-color: #424649;
+    border-color: #424649;
+  }
+}

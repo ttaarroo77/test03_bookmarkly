@@ -11,10 +11,11 @@
           <%= f.email_field :email, class: "form-control", placeholder: "your@email.com" %>
         </div>
 
-        <%= f.submit "パスワードリセットメールを送信", class: "btn btn-dark w-100 mb-3" %>
+        <%= f.submit "パスワードリセットメールを送信", class: "btn btn-dark w-100" %>
 
-        <div class="text-center small">
-          <%= link_to "ログインはこちら", new_session_path(resource_name), class: "text-decoration-none" %>
+        <div class="text-center mt-3">
+          <%= link_to "ログインはこちら", new_session_path(resource_name), 
+              class: "text-decoration-none text-secondary" %>
         </div>
       <% end %>
     </div>
